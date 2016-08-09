@@ -77,7 +77,7 @@ proc get*(this: var TGAImage; x: int; y: int): TGAColor =
     return TGAColor()
   return constructTGAColorFromRaw(this.data.ptr_offset(x+y*this.width.int), this.bytespp)
 
-proc set*(this: var TGAImage; x: int; y: int; c: TGAColor): bool =
+proc set*(this: var TGAImage; x: int; y: int; c: TGAColor): bool {.discardable} =
   if this.data == nil or x < 0 or y < 0 or x >= this.width.int or y >= this.height.int:
     return false
   for b in 0..this.bytespp.int-1:
