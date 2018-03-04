@@ -40,6 +40,8 @@
     vert))
 
 (defun parse-face (line)
+  ; I don't know why, but for some reason each number must be decreased by 1...
+  ; is the thing that saves it not 0-is-first-index based?
   (let ((next-start 0)
         (face (make-array 3)))
     (setf next-start (nth-value 1 (read-from-string line))) ; initial 'f'
@@ -48,19 +50,19 @@
       (setf next-start next)
       (let* ((as-str (princ-to-string first))
              (section-div-idx (position #\/ as-str :test #'equal)))
-        (setf (aref face 0) (parse-integer (subseq as-str 0 section-div-idx)))))
+        (setf (aref face 0) (1- (parse-integer (subseq as-str 0 section-div-idx))))))
     (multiple-value-bind (second next)
       (read-from-string line nil nil :start next-start)
       (setf next-start next)
       (let* ((as-str (princ-to-string second))
              (section-div-idx (position #\/ as-str :test #'equal)))
-        (setf (aref face 1) (parse-integer (subseq as-str 0 section-div-idx)))))
+        (setf (aref face 1) (1- (parse-integer (subseq as-str 0 section-div-idx))))))
     (multiple-value-bind (third next)
       (read-from-string line nil nil :start next-start)
       (setf next-start next)
       (let* ((as-str (princ-to-string third))
              (section-div-idx (position #\/ as-str :test #'equal)))
-        (setf (aref face 2) (parse-integer (subseq as-str 0 section-div-idx)))))
+        (setf (aref face 2) (1- (parse-integer (subseq as-str 0 section-div-idx))))))
     face))
 
 (defun parse-vert-or-face (line verts faces)

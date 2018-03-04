@@ -6,8 +6,8 @@
 (defconstant +red+ (make-color 255 0 0 255))
 (defconstant +asset-dir+ "/home/kevin/git_repos/tinyrenderer/")
 
-(defconstant +width+ 100)
-(defconstant +height+ 100)
+(defconstant +width+ 800)
+(defconstant +height+ 800)
 
 (defparameter *model* (format nil "~A~A" +asset-dir+ "obj/african_head.obj"))
 
@@ -27,14 +27,16 @@
            (derror2 (* 2 (abs dy)))
            (error2 0)
            (y y0))
-      (loop for x from x0 below x1
+      (loop for x from x0 to x1
             do 
             (if steep
                 (setf (ppm-image-get image y x) color)
                 (setf (ppm-image-get image x y) color))
             (incf error2 derror2)
             (when (> error2 dx)
-              (incf y (if (> y1 y0) 1 -1))
+              (if (> y1 y0)
+                  (incf y)
+                  (decf y))
               (decf error2 (* 2 dx)))))))
 
 (defun draw-model (model image)

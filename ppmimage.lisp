@@ -25,8 +25,9 @@
    (format :initarg :format :type image-format)))
 
 (defun make-ppm-image (width height format)
+  ; note: internal array's width-height must be 1+, sigh...
   (make-instance 'ppm-image
-                 :data (make-array `(,width ,height) :initial-element (make-color 0 0 0 0))
+                 :data (make-array `(,(1+ width) ,(1+ height)) :initial-element (make-color 0 0 0 0))
                  :width width
                  :height height
                  :format format))
